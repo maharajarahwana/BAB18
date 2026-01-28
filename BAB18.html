@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>BAB18</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>BAB1</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Latihan Kosakata</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .card {
+    background: white;
+    padding: 30px;
+    width: 400px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  input {
+    width: 90%;
+    padding: 8px;
+    margin-top: 15px;
+  }
+  button {
+    margin-top: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+  }
+  .result {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .wrong { color: red; }
+  .correct { color: green; }
+  ol { text-align:left; max-height:400px; overflow:auto; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2 id="question"></h2>
+  <input type="text" id="answerInput" placeholder="Tulis jawaban di sini">
+  <br>
+  <button id="nextBtn">Selanjutnya</button>
+</div>
+
+<script>
+let questions = [
+{ soal: "취미", jawaban: "hobi" },
+{ soal: "선택하다", jawaban: "memilih" },
+{ soal: "실내", jawaban: "dalam ruangan" },
+{ soal: "확대되다", jawaban: "diperbesar" },
+{ soal: "독서하다", jawaban: "membaca" },
+{ soal: "평일", jawaban: "hari biasa" },
+{ soal: "외국어를 배우다", jawaban: "belajar bahasa asing" },
+{ soal: "중시하다", jawaban: "mementingkan" },
+{ soal: "음악을 듣다", jawaban: "mendengarkan musik" },
+{ soal: "만족하다", jawaban: "puas" },
+{ soal: "낚시하다", jawaban: "memancing" },
+{ soal: "한국인", jawaban: "orang Korea" },
+{ soal: "노래하다", jawaban: "bernyanyi" },
+{ soal: "잡담", jawaban: "mengobrol" },
+{ soal: "영화를 보다", jawaban: "menonton film" },
+{ soal: "통화 하다", jawaban: "menelepon" },
+{ soal: "그림을 그리다", jawaban: "menggambar" },
+{ soal: "인터넷 검색", jawaban: "browsing internet" },
+{ soal: "스케이트를 타다", jawaban: "bermain skate" },
+{ soal: "영상 편집", jawaban: "pengeditan video" },
+{ soal: "스키를 타다", jawaban: "bermain ski" },
+{ soal: "조사하다", jawaban: "penyelidikan / penelitian" },
+{ soal: "기타를 치다", jawaban: "bermain gitar" },
+{ soal: "일과", jawaban: "pekerjaan sehari-hari" },
+{ soal: "피아노를 치다", jawaban: "bermain piano" },
+{ soal: "결과", jawaban: "hasil" },
+{ soal: "춤을 추다", jawaban: "menari" },
+{ soal: "전문", jawaban: "spesialisasi" },
+{ soal: "실외", jawaban: "luar ruangan" },
+{ soal: "분위기", jawaban: "suasana" },
+{ soal: "여행하다", jawaban: "berwisata" },
+{ soal: "여가의 질", jawaban: "kualitas waktu luang" },
+{ soal: "등산하다", jawaban: "mendaki gunung" },
+{ soal: "사진을 찍다", jawaban: "memotret" },
+{ soal: "출간되다", jawaban: "diterbitkan" },
+{ soal: "균형", jawaban: "keseimbangan" },
+{ soal: "운동 경기 보다", jawaban: "melihat pertandingan olahraga" },
+{ soal: "서적", jawaban: "buku" },
+{ soal: "대학", jawaban: "universitas" },
+{ soal: "산책하다", jawaban: "berjalan-jalan" },
+{ soal: "학과", jawaban: "jurusan / pelajaran" },
+{ soal: "조화로운", jawaban: "harmonis" },
+{ soal: "개설되다", jawaban: "dibuka" },
+{ soal: "시청", jawaban: "balai kota" },
+{ soal: "부담", jawaban: "beban" },
+{ soal: "모바일 콘텐츠", jawaban: "konten seluler" },
+{ soal: "여럿이", jawaban: "bersama / banyak orang" },
+{ soal: "사회적", jawaban: "sosial" },
+{ soal: "파크 골프", jawaban: "taman golf" },
+{ soal: "확산하다", jawaban: "menyebar" },
+{ soal: "풋살", jawaban: "futsal" },
+{ soal: "증설되다", jawaban: "diperluas" },
+{ soal: "스포츠", jawaban: "olahraga" },
+];
+
+// Acak soal
+questions = questions.sort(() => Math.random() - 0.5);
+
+let index = 0;
+let score = 0;
+let userAnswers = [];
+
+const questionEl = document.getElementById("question");
+const answerInput = document.getElementById("answerInput");
+const nextBtn = document.getElementById("nextBtn");
+const card = document.querySelector(".card");
+
+function showQuestion() {
+  questionEl.textContent = "Soal " + (index + 1) + ": " + questions[index].soal;
+  answerInput.value = "";
+  answerInput.focus();
+}
+
+nextBtn.addEventListener("click", () => {
+  const userAnswer = answerInput.value.trim().toLowerCase();
+  userAnswers[index] = userAnswer; // simpan jawaban sesuai index
+
+  if (userAnswer === questions[index].jawaban) {
+    score++;
+  }
+
+  index++;
+  if (index < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+});
+
+function showResult() {
+  let answerList = "";
+  questions.forEach((q, i) => {
+    if (userAnswers[i] === q.jawaban) {
+      answerList += `<li>${q.soal} = <span class="correct">${q.jawaban}</span></li>`;
+    } else {
+      answerList += `<li>${q.soal} = <span class="correct">${q.jawaban}</span><br>
+                     Jawaban kamu: <span class="wrong">${userAnswers[i] || "(kosong)"}</span></li>`;
+    }
+  });
+
+  card.innerHTML = `
+    <h2>Hasil</h2>
+    <p class="result">Nilai: ${score} / ${questions.length}</p>
+    <hr>
+    <p>Kunci Jawaban:</p>
+    <ol>${answerList}</ol>
+  `;
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
+    
+  </body>
+  
+</html>
